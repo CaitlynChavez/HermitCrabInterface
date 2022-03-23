@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 #https://streamlit.io/
 #streamlit run example.py [ARGUMENTS]
-st.write("# hermit crabs *yee haw*")
+st.write("# Hermit Crabs *yee haw*")
 secondInterval = 0
 # while secondInterval >= 5 and secondInterval <= 60:
 # secondInterval = st.number_input('Insert an interval between 5 and 60')
-secondInterval = st.number_input("Insert a number between 5 and 60 for seconds", min_value=5, max_value=60, step=1)
+secondInterval = st.number_input("Insert a time tracking interval in seconds", min_value=5, max_value=60, step=1)
 st.write('The current number is ', secondInterval)
 
 
