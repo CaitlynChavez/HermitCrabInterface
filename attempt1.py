@@ -1,6 +1,6 @@
 import streamlit as st
 # import pandas as pd
-
+# streamlit run attempt1.py
 
 from imutils.video import VideoStream
 import argparse
@@ -34,7 +34,9 @@ tfflie = tempfile.NamedTemporaryFile(suffix=".mp4", delete = False)
 # if video_file is not None:
 #      print("you did it :D")
 #
-if not video_file:
+if video_file is not None:
+     print(video_file.name)
+     print(type(video_file))
      # To read file as bytes:
      # To read file as bytes:
      # bytes_data = video_file.getvalue()
@@ -56,13 +58,19 @@ if not video_file:
      # vs = cv2.VideoCapture(dataframe)
 
 # https://www.youtube.com/watch?v=mxRH275SyAU
+     # tfflie.write(video_file.getvalue())
+     # vid = open(tfflie.name, 'rb')
+     # vs = cv2.VideoCapture(vid)
+     tfflie.write(video_file.getvalue())
 
-     tfflie.write(video_file)
      vid = open(tfflie.name, 'rb')
      vid_bytes = vid.read()
 
      st.sidebar.text("input video")
      st.sidebar.video(vid_bytes)
+     # import io
+     #
+     # vs = cv2.VideoCapture(io.BytesIO(vid_bytes))
 
 # while video_file is not None:
 #     print(type(video_file))
