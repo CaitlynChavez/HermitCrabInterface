@@ -49,7 +49,6 @@ def main():
     # display a demo video at first
     demo_video = "Bob_and_aws.mov"
     tfflie = tempfile.NamedTemporaryFile(suffix = "mp4", delete = False)
-
     # get input video
     if not video_file_buffer:
         vid = cv2.VideoCapture(demo_video)
@@ -86,7 +85,7 @@ def main():
 
     # TO-DO: FILL IN ADDITIONAL CODE FOR OPENCV TRACKING
 
-    ret, first_frame = vid.read()
+    ret, first_frame = demo_vid.read() # THROWS AN ERROR: vid referenced before assignment
     # Scale and resize image
     resize_dim = 300
     max_dim = max(first_frame.shape)
@@ -104,7 +103,7 @@ def main():
 
     # out = cv2.VideoWriter('video.mp4',-1,1,(600, 600))
 
-    while(vid.isOpened()):
+    while(demo_vid.isOpened()):
         # Read a frame from video
         ret, frame = vid.read()
 
@@ -139,17 +138,19 @@ def main():
 
         # Open a new window and displays the output frame
         dense_flow = cv2.addWeighted(frame, 1,rgb, 2, 0)
-        cv2.imshow("Dense optical flow", dense_flow)
-        # out.write(dense_flow)
-        # Update previous frame
-        prev_gray = gray
-        # Frame are read by intervals of 1 millisecond. The programs breaks out of the while loop when the user presses the 'q' key
-        if cv2.waitKey(10) & 0xFF == ord('q'):
-            break
-    # The following frees up resources and closes all windows
-    vid.release()
+        # adds a start button and only plays the video if pressed
+        if st.button("Start Video"):
+            cv2.imshow("Dense optical flow", dense_flow)
+            # out.write(dense_flow)
+            # Update previous frame
+            prev_gray = gray
+            # Frame are read by intervals of 1 millisecond. The programs breaks out of the while loop when the user presses the 'q' key
+            if cv2.waitKey(10) & 0xFF == ord('q'):
+                break
+        # The following frees up resources and closes all windows
+        demo_vid.release()
 
-    cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
 
 
 
