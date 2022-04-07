@@ -1,14 +1,20 @@
 1. Install streamlit
-- https://docs.streamlit.io/library/get-started/installation 
+- https://docs.streamlit.io/library/get-started/installation
 
 2. Add streamlit code to python file:
 - import streamlit as st
-- st.write --> add info to UI 
+- st.write --> add info to UI
 
 3. Run streamlit app:
 - streamit run filename.py
-- or 
+- or
 - python -m streamlit filename.py
 
 4. Update streamlit app
-- save source file and rerun the app 
+- save source file and rerun the app
+
+
+Once Running:
+1.  Upload video
+    Be able to know when a video is uploaded so that the program can proceed into tracking
+    
