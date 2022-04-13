@@ -44,18 +44,15 @@ def main():
     st.sidebar.markdown("---")
 
     # columns for labeling videos
-    kpi1, kpi2, kpi3 = st.columns(3)
+    kpi1, kpi2, = st.columns(2)
 
     # initialize column values
     with kpi1:
-        st.markdown("**Frame Rate**")
+        st.markdown("**Seconds Interval**")
         kpi1_text = st.markdown("0")
     with kpi2:
-        st.markdown("**Tracked Objects**")
+        st.markdown("**Number of Crabs**")
         kpi2_text = st.markdown("0")
-    with kpi3:
-        st.markdown("**Width**")
-        kpi3_text = st.markdown("0")
 
     # TO-DO: FILL IN ADDITIONAL CODE FOR OPENCV TRACKING
 
@@ -80,18 +77,21 @@ def main():
         video_uploaded_bool = True
         # adds a start button and only plays the video if pressed
         if st.button("Start Video"):
+            # WORK IN PROGRESS COMMENTS: ASKING FOR INPUT OF NUM CRABS AND SECONDS INTERVAL
             # TO-DO:
             # input: interval, number of crabs
+            # secondInterval = st.number_input("Insert a time tracking interval in seconds", min_value=0, max_value=60, step=1)
+            # kpi1_text = st.markdown(secondInterval)
+            # st.write('Tracking Interval', secondInterval, "seconds")
+            # numCrabs = st.number_input("Insert the number of crabs to track", min_value=0, max_value=60, step=1)
+            # kpi2_text = st.markdown(numCrabs)
+            # st.write("Number of Crabs", numCrabs)
             # make it so you can't change those after the video starts
             # make a terminal to write to while video is playing (UI)
-            # cv2.imshow("Dense optical flow", dense_flow)
-            # out.write(dense_flow)
-            # Update previous frame
-            # COMMENTED THIS OUT
-            # prev_gray = gray
-            # # Frame are read by intervals of 1 millisecond. The programs breaks out of the while loop when the user presses the 'q' key
-            # if cv2.waitKey(10) & 0xFF == ord('q'):
-            #     break
+            # if ((secondInterval != 0) and (numCrabs != 0)):
+            #     print(secondInterval)
+            #     print(numCrabs)
+            # time.sleep(5)
             tfflie.write(video_file_buffer.read())
 
         vid = cv2.VideoCapture(tfflie.name)

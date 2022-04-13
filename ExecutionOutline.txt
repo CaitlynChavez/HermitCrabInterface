@@ -15,9 +15,6 @@
 
 
 Once Running:
-1. Add input bars for time_interval, number_of_crabs_to_track, etc
-
-2. Start button that checks that all above information is filled out including video before starting
-
-.  Upload video
+1.  Upload video
     Be able to know when a video is uploaded so that the program can proceed into tracking
+    
