@@ -47,12 +47,12 @@ def main():
     kpi1, kpi2, = st.columns(2)
 
     # initialize column values
-    with kpi1:
-        st.markdown("**Seconds Interval**")
-        kpi1_text = st.markdown("0")
-    with kpi2:
-        st.markdown("**Number of Crabs**")
-        kpi2_text = st.markdown("0")
+    # with kpi1:
+    #     st.markdown("**Seconds Interval**")
+    #     kpi1_text = st.markdown("0")
+    # with kpi2:
+    #     st.markdown("**Number of Crabs**")
+    #     kpi2_text = st.markdown("0")
 
     # TO-DO: FILL IN ADDITIONAL CODE FOR OPENCV TRACKING
 
@@ -75,24 +75,23 @@ def main():
         # tfflie.name = demo_video
     else : # Video properly uploaded
         video_uploaded_bool = True
-        # adds a start button and only plays the video if pressed
-        if st.button("Start Video"):
-            # WORK IN PROGRESS COMMENTS: ASKING FOR INPUT OF NUM CRABS AND SECONDS INTERVAL
-            # TO-DO:
-            # input: interval, number of crabs
-            # secondInterval = st.number_input("Insert a time tracking interval in seconds", min_value=0, max_value=60, step=1)
-            # kpi1_text = st.markdown(secondInterval)
-            # st.write('Tracking Interval', secondInterval, "seconds")
-            # numCrabs = st.number_input("Insert the number of crabs to track", min_value=0, max_value=60, step=1)
-            # kpi2_text = st.markdown(numCrabs)
-            # st.write("Number of Crabs", numCrabs)
-            # make it so you can't change those after the video starts
-            # make a terminal to write to while video is playing (UI)
-            # if ((secondInterval != 0) and (numCrabs != 0)):
-            #     print(secondInterval)
-            #     print(numCrabs)
-            # time.sleep(5)
-            tfflie.write(video_file_buffer.read())
+        # get input of tracking interval in seconds
+        secondInterval = st.number_input("Insert a time tracking interval in seconds", min_value=0, max_value=60, step=1)
+        # get input of number of crabs to track
+        numCrabs = st.number_input("Insert the number of crabs to track", min_value=0, max_value=60, step=1)
+        # display input values
+        with kpi1:
+            st.markdown("**Seconds Interval**")
+            kpi1_text = st.markdown(secondInterval)
+        with kpi2:
+            st.markdown("**Number of Crabs**")
+            kpi2_text = st.markdown(numCrabs)
+        # adds a start button and only plays the video if pressed and the inputs are not 0
+        inputsReady = (secondInterval != 0) and (numCrabs != 0)
+        if st.button("Start Video") and inputsReady:
+
+            if inputsReady:
+                tfflie.write(video_file_buffer.read())
 
         vid = cv2.VideoCapture(tfflie.name)
         while(vid.isOpened()):
