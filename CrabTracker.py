@@ -6,7 +6,7 @@ import imutils
 import time
 import cv2
 import math
-
+import streamlit as st
 import os #folder creation
 from os import listdir
 from os.path import isfile, join
@@ -133,7 +133,9 @@ class BoxInfo(object):
         return distance
 
 class CrabTracker:
-    def __init__(self, number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name):
+    def __init__(self, number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name, write_function):
+        global print 
+        print = write_function
         print("Creating new instance of crab tracker")
         self.number_of_crabs_to_track = number_of_crabs_to_track
         self.write_to_excel = write_to_excel
@@ -207,7 +209,7 @@ class CrabTracker:
 
             box_list_length = len(self.BoxInfoList)
             if len(self.BoxInfoList) > 0:
-                first_minute_list, junk, junk2, junk3 = BoxInfoList[0].returnBoxMinuteLists()
+                first_minute_list, junk, junk2, junk3 = self.BoxInfoList[0].returnBoxMinuteLists()
             num_minutes = len(first_minute_list)
 
 
@@ -228,7 +230,7 @@ class CrabTracker:
             writer.writerow(header_list)
 
             for box_num in range(0, box_list_length):
-                box_data = BoxInfoList[box_num].returnCSVData()
+                box_data = self.BoxInfoList[box_num].returnCSVData()
                 writer.writerow(box_data)
             print("File written to", csvFileName+'.csv')
 

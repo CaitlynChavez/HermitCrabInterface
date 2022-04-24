@@ -25,6 +25,14 @@ import CrabTracker
 #https://streamlit.io/
 #streamlit run attempt2.py [ARGUMENTS]
 
+list = []
+
+# def terminal(inputStr):
+#     if len(list) > 10:
+#         list.pop()
+#     list.insert(0, inputStr)
+#     outputStr = '\n'.join(inputStr)
+#     st.write(outputStr)
 
 
 def main():
@@ -70,6 +78,8 @@ def main():
     tfflie = tempfile.NamedTemporaryFile(delete = False)
     video_uploaded_bool = False
 
+
+
     # No video uploaded
     if not video_file_buffer:
         pass
@@ -96,8 +106,10 @@ def main():
                 tfflie.write(video_file_buffer.read())
                 vid = cv2.VideoCapture(tfflie.name)
                 print(tfflie.name)
-                crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname")
+
+                crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname", st.write)
                 crabTrack.startAnalyzingVideo()
+        # st.write("HELLO WORLD")
 
         #number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name):
         # crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname")
