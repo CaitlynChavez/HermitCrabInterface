@@ -20,6 +20,8 @@ from io import StringIO  #io
 import pandas as pd
 import numpy as np
 import tempfile
+
+import CrabTracker
 #https://streamlit.io/
 #streamlit run attempt2.py [ARGUMENTS]
 
@@ -92,21 +94,27 @@ def main():
 
             if inputsReady:
                 tfflie.write(video_file_buffer.read())
+                vid = cv2.VideoCapture(tfflie.name)
+                print(tfflie.name)
+                crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname")
+                crabTrack.startAnalyzingVideo()
 
-        vid = cv2.VideoCapture(tfflie.name)
-        while(vid.isOpened()):
-            # capture frame by frame
-            ret, frame = vid.read()
-            if ret == True:
-                cv2.imshow('frame', frame)
-                #press q to exit
-                if cv2.waitKey(25) & 0xFF == ord('q'):
-                    break
-            else :
-                break
-        vid.release()
-
-        cv2.destroyAllWindows()
+        #number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name):
+        # crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname")
+        # crabTrack.startAnalyzingVideo()
+        # while(vid.isOpened()):
+        #     # capture frame by frame
+        #     ret, frame = vid.read()
+        #     if ret == True:
+        #         cv2.imshow('frame', frame)
+        #         #press q to exit
+        #         if cv2.waitKey(25) & 0xFF == ord('q'):
+        #             break
+        #     else :
+        #         break
+        # vid.release()
+        #
+        # cv2.destroyAllWindows()
 
 
 

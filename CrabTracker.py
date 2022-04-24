@@ -134,6 +134,7 @@ class BoxInfo(object):
 
 class CrabTracker:
     def __init__(self, number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name):
+        print("Creating new instance of crab tracker")
         self.number_of_crabs_to_track = number_of_crabs_to_track
         self.write_to_excel = write_to_excel
         self.write_to_video = write_to_video
@@ -444,8 +445,6 @@ class CrabTracker:
         # ExportExcel(video_name)
         # ExportMinuteInformationExcel(video_name)
         self.ExportMLInformationCSV(self.video_name)
-        global total_frames
-        global fps
         self.total_time = total_frames/fps
         print("Video time:", total_time, "seconds with", total_frames, "frames" )
         print("cup size in pixels", cup_average, "cup ratio was ", cup_ratio)
