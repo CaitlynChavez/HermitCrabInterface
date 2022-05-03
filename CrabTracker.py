@@ -27,7 +27,7 @@ length_average_box_side = 0
 
 #contains information for crab box label including name, distance moved, and last known coordinate
 class BoxInfo(object):
-    def __init__(self, name):
+    def __init__(self, name, rollOverThreshold):
 
         self.name = name
         self.distance_moved = 0
@@ -38,6 +38,7 @@ class BoxInfo(object):
         self.lap_distance = 0
         self.waiting_time = 0
         self.coordQueue = []
+        self.rollOverThreshold = rollOverThreshold
 
         self.current_minute_distance = 0
         self.minute_distance_list = []
@@ -86,7 +87,7 @@ class BoxInfo(object):
                 self.waiting_time +=1
                 self.current_minute_wait_time+=1
 
-            if total_frames%frames_per_minute == 0:
+            if total_frames%self.rollOverThreshold == 0:
                 self.minute_distance_list.append(self.current_minute_distance)
                 self.current_minute_distance = 0
 
@@ -133,21 +134,15 @@ class BoxInfo(object):
         return distance
 
 class CrabTracker:
-    def __init__(self, number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name, write_function):
-        global print 
-        print = write_function
+    def __init__(self, number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name, interval_input):
+        # global print
+        # print = write_function
         print("Creating new instance of crab tracker")
         self.number_of_crabs_to_track = number_of_crabs_to_track
         self.write_to_excel = write_to_excel
         self.write_to_video = write_to_video
         self.crabVid = video
         self.video_name = video_name
-        # self.total_frames = 0
-
-
-
-        # self.distance_threshold = 0
-        # self.length_average_box_side = 0
 
         self.cup_height = 0
         self.cup_width = 0
@@ -164,12 +159,19 @@ class CrabTracker:
 
         self.trackers = cv2.MultiTracker_create()
         self.tracker_type = "csrt"
+        self.secondInputInterval = interval_input
 
         self.apply_contrast = False
         self.v_contrast = 5#45
         self.resize = True
+        self.interval = interval_input
+        self.secondThreshold = 1 #number of seconds per data
 
-        frames_per_minute = -1 #frames per minute
+        # frames_per_minute = -1 #frames per minute
+        # second_interval = -1
+        # global interval
+        # interval = interval_input
+        # interval
 
         self.OPENCV_OBJECT_TRACKERS = {
             "csrt": cv2.TrackerCSRT_create,
@@ -218,10 +220,12 @@ class CrabTracker:
             total_dist_list = []
             total_lap_list = []
 
+            secondTime = self.secondInputInterval
+
             for i in range(0, num_minutes):
-                dist_min_list.append("min" + str(i+1) + "_dist/min")
-                total_dist_list.append("min" + str(i+1) + "_total_dist/min")
-                total_lap_list.append("min" + str(i+1) + "_total_laps")
+                dist_min_list.append("time:" + str((i+1)*secondTime) + "_dist/"+str(secondTime)+"s")
+                total_dist_list.append("time:" + str((i+1)*secondTime) + "_total_dist/"+str(secondTime)+"s")
+                total_lap_list.append("time: "+ str((i+1)*secondTime) + "_total_laps"+str(secondTime)+"s")
 
             header_list.extend(dist_min_list)
             header_list.extend(total_dist_list)
@@ -286,9 +290,17 @@ class CrabTracker:
             sys.exit()
         global fps
         fps = self.crabVid.get(5)
-        global frames_per_minute
+        self.interval = int(self.interval * fps)
+        print(self.interval)
+        # global frames_per_minute
+        #
+        # frames_per_minute = int(fps*60)
+        # global second_interval
+        # global interval
+        # second_interval = int(frames_per_minute * (second_interval/60.0))
 
-        frames_per_minute = int(fps*60)
+
+
         print('Frames per second : ', fps,'FPS')
         frame = cv2.resize(frame, None, fx=scale, fy=scale)
         frame_height, frame_width = frame.shape[:2]
@@ -382,7 +394,7 @@ class CrabTracker:
                 if label_name == "quit" or label_name == "q":
                     self.number_of_crabs_to_track = 0
                     break
-                self.BoxInfoList.append(BoxInfo(label_name)) #adds info for new box
+                self.BoxInfoList.append(BoxInfo(label_name, self.interval)) #adds info for new box
                 self.number_of_crabs_to_track = self.number_of_crabs_to_track -1
 
 
@@ -434,7 +446,7 @@ class CrabTracker:
                 tracker = OPENCV_OBJECT_TRACKERS[tracker_type]()
                 self.trackers.add(tracker, frame, box)
                 label_name  = input("Please enter name of label:\n")
-                self.BoxInfoList.append(BoxInfo(label_name)) #adds info for new label box
+                self.BoxInfoList.append(BoxInfo(label_name, self.interval)) #adds info for new label box
                 # if the `q` key was pressed, break from the loop
             elif key == ord("q"):
                 break
@@ -448,8 +460,8 @@ class CrabTracker:
         # ExportMinuteInformationExcel(video_name)
         self.ExportMLInformationCSV(self.video_name)
         self.total_time = total_frames/fps
-        print("Video time:", total_time, "seconds with", total_frames, "frames" )
-        print("cup size in pixels", cup_average, "cup ratio was ", cup_ratio)
+        print("Video time:", self.total_time, "seconds with", total_frames, "frames" )
+        # print("cup size in pixels", self.cup_average, "cup ratio was ", self.cup_ratio)
 
         # close all windows
         cv2.destroyAllWindows()

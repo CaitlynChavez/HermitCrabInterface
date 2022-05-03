@@ -106,8 +106,9 @@ def main():
                 tfflie.write(video_file_buffer.read())
                 vid = cv2.VideoCapture(tfflie.name)
                 print(tfflie.name)
-
-                crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname", st.write)
+                #                           number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name, interval_input):
+                # at the moment crabtracker is true for both always even if you put in false i guess it doesnt matter 
+                crabTrack = CrabTracker.CrabTracker(numCrabs, True, True, vid, "genericname", int(secondInterval))
                 crabTrack.startAnalyzingVideo()
         # st.write("HELLO WORLD")
 
