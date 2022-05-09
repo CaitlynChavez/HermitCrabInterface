@@ -30,7 +30,7 @@ def main():
     st.title("Object Tracking Dashboard")
 
     # create a settings bar to the left of the screen
-    st.sidebar.title("settings")
+    st.sidebar.title("Settings")
     unsafe_allow_html = True
     stframe = st.empty()
     st.sidebar.markdown("---")
