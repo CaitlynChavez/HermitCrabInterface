@@ -31,14 +31,6 @@ def main():
 
     # create a settings bar to the left of the screen
     st.sidebar.title("settings")
-    st.markdown(
-    """
-    <style>
-    [data-testid = "stSidebar"][area-expanded = "true"] > div:first-child{width: 400px;}
-    [data-testid = "stSidebar"][area-expanded = "false"] > div:first-child{width: 400px; margin-left: -400px}
-    </style>
-    """,
-    )
     unsafe_allow_html = True
     stframe = st.empty()
     st.sidebar.markdown("---")
