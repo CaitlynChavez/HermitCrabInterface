@@ -1,6 +1,6 @@
+#streamlit run HermitCrabUI.py
+
 import streamlit as st
-# import pandas as pd
-# streamlit run attempt2.py
 
 from imutils.video import VideoStream
 import argparse
@@ -23,17 +23,7 @@ import tempfile
 
 import CrabTracker
 #https://streamlit.io/
-#streamlit run attempt2.py [ARGUMENTS]
-
-list = []
-
-# def terminal(inputStr):
-#     if len(list) > 10:
-#         list.pop()
-#     list.insert(0, inputStr)
-#     outputStr = '\n'.join(inputStr)
-#     st.write(outputStr)
-
+#streamlit run HermitCrabUI.py [ARGUMENTS]
 
 def main():
     print("STARTING")
@@ -105,39 +95,14 @@ def main():
             if inputsReady:
                 tfflie.write(video_file_buffer.read())
                 vid = cv2.VideoCapture(tfflie.name)
-                print(tfflie.name)
+                video_name = video_file_buffer.name
+                date_time = time.strftime("%d-%m-%Y-%H_%M_%S", time.localtime())
+                video_name += date_time
+                print(video_name)
                 #                           number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name, interval_input):
-                # at the moment crabtracker is true for both always even if you put in false i guess it doesnt matter 
-                crabTrack = CrabTracker.CrabTracker(numCrabs, True, True, vid, "genericname", int(secondInterval))
+                # at the moment crabtracker is true for both always even if you put in false i guess it doesnt matter
+                crabTrack = CrabTracker.CrabTracker(numCrabs, True, True, vid, video_name, int(secondInterval))
                 crabTrack.startAnalyzingVideo()
-        # st.write("HELLO WORLD")
-
-        #number_of_crabs_to_track, write_to_excel, write_to_video, video, video_name):
-        # crabTrack = CrabTracker.CrabTracker(numCrabs, False, False, vid, "genericname")
-        # crabTrack.startAnalyzingVideo()
-        # while(vid.isOpened()):
-        #     # capture frame by frame
-        #     ret, frame = vid.read()
-        #     if ret == True:
-        #         cv2.imshow('frame', frame)
-        #         #press q to exit
-        #         if cv2.waitKey(25) & 0xFF == ord('q'):
-        #             break
-        #     else :
-        #         break
-        # vid.release()
-        #
-        # cv2.destroyAllWindows()
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     try:
